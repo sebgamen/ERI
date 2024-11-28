@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Equipos Hospitalarios</title>
+    <style>
+                .equipment-image {
+            width: 600px;
+            height: 400px;
+            object-fit: cover;
+            margin-bottom: 0.5rem;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: black;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .logo-title {
+            display: flex;
+            align-items: center;
+        }
+        .logo-title img {
+            max-width: 100px;
+            margin-right: 1rem;
+        }
+        .subtitle {
+            font-size: 0.9rem;
+            color: #f97316;
+            font-style: italic;
+        }
+        .search-bar {
+            display: flex;
+        }
+        .search-bar input {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem 0 0 0.375rem;
+        }
+        .search-bar button {
+            padding: 0.5rem 1rem;
+            background-color: #f97316;
+            color: white;
+            border: none;
+            border-radius: 0 0.375rem 0.375rem 0;
+            cursor: pointer;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .dropbtn {
+            background-color: #f97316;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            width: 100%;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropbtn {
+            background-color: #e86305;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            margin-bottom: 1rem;
+            padding: 1rem;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+        .tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom-color: #f97316;
+            color: #f97316;
+        }
+        .equipment-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .equipment-item {
+            background-color: white;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            padding: 1rem;
+        }
+        .availability {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .availability-indicator {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        .available {
+            background-color: #22c55e;
+        }
+        .not-available {
+            background-color: #ef4444;
+        }
+        .doctor-list, .technician-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .doctor-item, .technician-item {
+            background-color: white;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .doctor-icon, .technician-icon {
+            width: 2rem;
+            height: 2rem;
+            background-color: #f97316;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+        .comment-form {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        .comment-form input {
+            flex-grow: 1;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+        }
+        .comment-form button {
+            padding: 0.5rem 1rem;
+            background-color: #f97316;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+        .comment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .comment-item {
+            background-color: white;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            padding: 1rem;
+        }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #f97316;
+        }
+        .map-container {
+            width: 100%;
+            height: 300px; /* Altura del mapa */
+            margin-top: 1rem;
+        }
+        .equipment-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-title">
+                <img src="LOGO2.jpg" alt="Hospital Search Logo">
+                <div>
+                    <p class="subtitle">Encuentra el diagnóstico que necesitas</p>
+                </div>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Buscar equipo médico...">
+                <button onclick="handleSearch()">Buscar</button>
+            </div>
+        </header>
+
+        <div class="dropdown">
+            <button class="dropbtn">Seleccionar Hospital</button>
+            <div class="dropdown-content" id="hospitalList">
+            </div>
+        </div>
+
+        <div id="hospitalContent" style="display: none;">
+            <div class="card">
+                <h2 id="selectedHospitalName"></h2>
+                <div class="tabs">
+                    <div class="tab active" onclick="selectTab('Imagenologia')">Imagenología</div>
+                    <div class="tab" onclick="selectTab('Radiología')">Radiología</div>
+                    <div class="tab" onclick="selectTab('Radioterapia')">Radioterapia</div>
+                    <div class="tab" onclick="selectTab('Medicina Nuclear')">Medicina Nuclear</div>
+                    <div class="tab" onclick="selectTab('Hemodinamia')">Hemodinamia</div>
+                    <div class="tab" onclick="selectTab('Quirofano')">Quirofano</div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+
+            <div class="card">
+                <h3>Doctores y Contactos</h3>
+                <div id="doctorLists"></div>
+                <dic class = "Doctor1" 
+            </div>
+
+            <div class="card">
+                <h3>Técnicos y Empresas de Mantenimiento</h3>
+                <div id="technicianLists"></div>
+            </div>
+
+            <div class="card">
+                <h3>Opiniones y Experiencias Médicas</h3>
+                <form class="comment-form" onsubmit="handleCommentSubmit(event)">
+                    <input type="text" id="commentInput" placeholder="Escribe tu comentario aquí..." required>
+                    <button type="submit">Enviar</button>
+                </form>
+                <div class="comment-list" id="commentList"></div>
+            </div>
+
+            <div class="card">
+                <h3>Ubicación</h3>
+                <div class="map-container" id="mapContainer"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Anáhuac Mayab</p>
+            <p>Creado por Sebastián García y Azalea Jerónimo</p>
+        </footer>
+    </div>
+    <script>
+        const hospitals = [
+            {
+                name: "Hospital Regional de Alta Especialidad de la Península de Yucatán",
+                lat: 20.9754,
+                lon: -89.6165,
+                doctors: [
+                    { name: "Dr. Juan Pérez", contact: "9998760871" },
+                    { name: "Dra. Ana López", contact: "9998765432" }
+                ],
+                technicians: [
+                    { name: "Ing. Victor Toledo Lira", company: "Subdirector de Ing. Biomedica", contact: "9991216077" },
+                    { name: "Tec. Patricia Hernández", company: "MedImage Maintenance", contact: "9995555678" }
+                ],
+                location: "https://www.google.com/maps/place/El+Hospital+Regional+de+Alta+Especialidad+de+la+Pen%C3%ADnsula+de+Yucat%C3%A1n/@21.0192986,-89.5844836,17z/data=!3m1!4b1!4m6!3m5!1s0x8f56772222061d89:0x561eb7b43daf87cd!8m2!3d21.0192936!4d-89.5819087!16s%2Fg%2F121l0sgs?entry=ttu&g_ep=EgoyMDI0MTExMS4wIKXMDSoASAFQAw%3D%3D",
+                equipment: {
+                    "Radiología": [
+                        { 
+                            name: "Rayos X Portatil", 
+                            description: "Sistema de Rayos X portatil", 
+                            available: true, 
+                            image: "RayosXPortatilHRAE.jpg"
+                        }
+                    ],
+                    "Imagenologia": [
+                        { 
+                            name: "Tomografía Computarizada", 
+                            description: "Equipo de TC de 64 cortes", 
+                            available: true, 
+                            image: "TomografoHRAE.jpg"
+                        },
+                        { 
+                            name: "Rayos X Digital", 
+                            description: "Sistema de radiografía digital directa", 
+                            available: true, 
+                            image: "RayosXHRAEMindray.jpg"
+                        },
+                        { 
+                            name: "Tomografo Computarizado SIEMENS", 
+                            description: "Sistema de TC de mediana resolucion", 
+                            available: true, 
+                            image: "Tomografo2HRAE.jpg"
+                        }
+                    ],
+                    "Radioterapia": [
+                    {
+                            name:"Angiografo / Arco C",
+                            description:"Equipos de angiografia biplanar",
+                            available: true,
+                            image:"AngiografoHRAE.jpg"
+                        }
+                    ],
+                    "Medicina Nuclear": [
+                        { 
+                            name: "PET-CT", 
+                            description: "Tomógrafo por emisión de positrones combinado con TC", 
+                            available: true, 
+                            image: "Tomografo_pot_positrones.jpg"
+                        },
+                        { 
+                            name: "Gammacámara SPECT", 
+                            description: "Cámara gamma para estudios de SPECT", 
+                            available: false, 
+                            image: "url_de_imagen_gammacamara.jpg"
+                        }
+                    ],
+                    "Hemodinamia": [
+            { 
+                name: "Angiógrafo Poligrafo", 
+                description: "Sistema de Angiografía", 
+                available: true, 
+                image: "url_de_imagen_petct.jpg"
+            }, // Coma añadida aquí
+            { 
+                name: "Arco en C", 
+                description: "Sistema de Arco en C", 
+                available: true, 
+                image: "url_de_imagen_rayox.jpg"
+            } // No se necesita coma aquí porque es el último elemento
+        ],
+        "Quirofano": [
+            { 
+                name: "Arco en C", 
+                description: "Sistema de Arco en C", 
+                available: true, 
+                image: "ArcoCQuirofano.jpg"
+            } // No se necesita coma aquí porque es el último elemento
+        ]
+                }
+            },
+            {
+                name: "Hospital General Dr. Agustín O'Horán",
+                lat: 20.9654,
+                lon: -89.6221,
+                doctors: [
+                    { name: "Dr. Luis Martínez", contact: "9992345678" },
+                    { name: "Dra. María Rodríguez", contact: "9991234567" }
+                ],
+                technicians: [
+                    { name: "Ing. Fernando Díaz", company: "OncoEquip Services", contact: "9995559876" },
+                    { name: "Tec. Gabriela Ruiz", company: "RadiationCare", contact: "9995553210" }
+                ],
+                location: "Ubicación del Hospital General Dr. Agustín O'Horán",
+                equipment: {
+                    "Radiología": [
+                        { 
+                            name: "Tomografía Computarizada", 
+                            description: "Equipo de TC de 64 cortes", 
+                            available: true, 
+                            image: "url_de_imagen_tomografia.jpg"
+                        }
+                    ],
+                    "Radioterapia": [
+                        { 
+                            name: "Acelerador Lineal", 
+                            description: "Acelerador lineal de última generación", 
+                            available: true, 
+                            image: "url_de_imagen_acelerador.jpg"
+                        }
+                    ],
+                    "Medicina Nuclear": [
+                        { 
+                            name: "PET-CT", 
+                            description: "Tomógrafo por emisión de positrones combinado con TC", 
+                            available: true, 
+                            image: "url_de_imagen_petct.jpg"
+                        }
+                    ],
+                    "Hemodinamia": [
+            { 
+                name: "Angiógrafo Poligrafo", 
+                description: "Sistema de Angiografía con Arco C", 
+                available: true,
+                price: 1500, 
+                image: "Angiografoorhan.jpg"
+            }
+        ]
+                }
+            },
+            {
+                name: "Centro Médico de las Américas",
+                lat: 20.9732,
+                lon: -89.6170,
+                doctors: [
+                    { name: "Dr. Carlos Torres", contact: "9998765432" },
+                    { name: "Dra. Laura Jiménez", contact: "9998765433" }
+                ],
+                technicians: [
+                    { name: "Ing. Javier López", company: "MedEquip Solutions", contact: "9995551235" },
+                    { name: "Tec. Ana García", company: "HealthTech Services", contact: "9995555679" }
+            ],
+            location: "Ubicación del Centro Médico de las Américas",
+            equipment: {
+                "Radiología": [
+                    { 
+                        name: "Ultrasonido", 
+                        description: "Equipo de ultrasonido de alta definición", 
+                        available: true, 
+                        price: 1200,
+                        image: "url_de_imagen_ultrasonido.jpg"
+                    }
+                ],
+                "Imagenologia": [
+                    { 
+                        name: "Tomografo Computarizado", 
+                        description: "Equipo de Tomografia computariazda de alta definición SIEMENS", 
+                        available: true,
+                        price: 1200,
+                        image: "TomografoCEMA.jpg"
+                    }
+                ],
+                "Radioterapia": [
+                    { 
+                        name: "Acelerador Lineal", 
+                        description: "Acelerador lineal de última generación", 
+                        available: true, 
+                        price: 2100,
+                        image: "url_de_imagen_acelerador.jpg"
+                    }
+                ],
+                "Medicina Nuclear": [
+                    { 
+                        name: "SPECT", 
+                        description: "Escáner SPECT para estudios de diagnóstico", 
+                        available: true, 
+                        price: 2500,
+                        image: "url_de_imagen_spect.jpg"
+                    }
+                ],
+                "Hemodinamia": [
+            { 
+                name: "Angiógrafo Poligrafo", 
+                description: "Sistema de Angiografía con Arco C", 
+                available: true,
+                price: 1500, 
+                image: "AngiografoCEMA.jpg"
+            }
+        ]
+            }
+            
+        },
+        {
+    name: "Unidad Médica de Alta Especialidad UMAE IMSS",
+    lat: 20.9682,
+    lon: -89.6175,
+    doctors: [
+                { name: "Dr. Roberto Betancourt", contact: "9999225656" },
+                { name: "DR. José Luis Morales Aceves", contact: "9999225656. Ext:61142 " }
+            ],
+            technicians: [
+                { name: "Dr. Jesus Sánchez", company: "Jefe Division Ing. Biomedica", contact: "9991037909" },
+                { name: "Ing. Daniel Canto", company: "Subjefe Division Ing. Biomedica", contact: "9992516473" }
+            ],
+    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.3344793029855!2d-89.58448362528583!3d21.019298588104483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f56772222061d89%3A0x561eb7b43daf87cd!2sEl%20Hospital%20Unidad%20M%C3%A9dica%20de%20Alta%20Especialidad%20IMSS!5e0!3m2!1ses-419!2smx!4v1729841612757!5m2!1ses-419!2smx",
+    location: "Ubicación de la UMAE IMSS",
+    equipment: {
+        "Radiología": [
+            { 
+                name: "Acelerador Lineal", 
+                description: "Acelerador Lineal de Ultima Generacion Elekta", 
+                available: true, 
+                image: "AceleradorLinealElektaUMAE.jpeg"
+            },
+            { 
+                name: "Tomógrafo de 16 Cortes", 
+                description: "Unidad de Tomografia Simulador de 16 Cortes", 
+                available: true, 
+                image: "Tomografo16CortesUMAE.jpg"
+            }
+
+        ],
+        "Imagenologia": [
+            { 
+                name: "Rayos X Portátil", 
+                description: "Sistema de rayos X Portátil Shimatzu", 
+                available: true, 
+                image: "ShimadzuUMAE.jpg"
+            }, // Coma añadida aquí
+            { 
+                name: "Rayos X", 
+                description: "Sistema de rayos X", 
+                available: true, 
+                image: "RayosXMesaUMAE".jpg
+            }, // Coma añadida aquí
+            { 
+                name: "Tomógrafo 64 Cortes", 
+                description: "Sistema de Tomografía computarizada de 64 Cortes Toshiba", 
+                available: true, 
+                image: "Tomografo64CortesUMAE.jpg"
+            }, // Coma añadida aquí
+            { 
+                name: "Angiógrafo de Biplanar", 
+                description: "Sistema de Angiografía computarizada Biplanar", 
+                available: true, 
+                image: "AngiografoBiplanarUMAE.jpg"
+            } // No se necesita coma aquí porque es el último elemento
+        ],
+        "Radioterapia": [
+            { 
+                name: "Braquiterapia", 
+                description: "Sistema de Braquiterapia de alta tasa", 
+                available: true, 
+                image: "url_de_imagen_braquiterapia.jpg"
+            }, // Coma añadida aquí
+            { 
+                name: "Arco en C", 
+                description: "Sistema de Arco en C", 
+                available: true, 
+                image: "url_de_imagen_braquiterapia.jpg"
+            }, // No se necesita coma aquí porque es el último elemento
+            { 
+                name: "Acelerador Lineal", 
+                description: "Acelerador Lineal de Ultima Generacion", 
+                available: true, 
+                image: "url_de_imagen_aceleradorlineal.jpg"
+            }
+        ],
+        "Medicina Nuclear": [
+            { 
+                name: "Gamma Cámara NM", 
+                description: "Sistema de Gamma Cámara", 
+                available: true, 
+                image: "url_de_imagen_petct.jpg"
+            } // No se necesita coma aquí porque es el último elemento
+        ],
+        "Hemodinamia": [
+            { 
+                name: "Angiógrafo Poligrafo", 
+                description: "Sistema de Angiografía", 
+                available: true, 
+                image: "url_de_imagen_petct.jpg"
+            }, // Coma añadida aquí
+            { 
+                name: "Arco en C", 
+                description: "Sistema de Arco en C", 
+                available: true, 
+                image: "url_de_imagen_rayox.jpg"
+            } // No se necesita coma aquí porque es el último elemento
+        ],
+        "Quirofano": [
+            { 
+                name: "Arco en C", 
+                description: "Sistema de Arco en C", 
+                available: true, 
+                image: "ArcoCQuirofanoUMAE.jpeg"
+            } // No se necesita coma aquí porque es el último elemento
+        ],
+        "Mastografia": [
+            { 
+                name: "Mastógrafo", 
+                description: "Sistema de Mastografía", 
+                available : true, 
+                image: "url_de_imagen_petct.jpg"
+            } // No se necesita coma aquí porque es el último elemento
+        ]
+    }
+},
+        {
+            name: "Hospital Faro del Mayab Grupo Christus Muguerza",
+            lat: 20.9750,
+            lon: -89.6200,
+            doctors: [
+                { name: "Dr. Felipe González", contact: "9998765434" },
+                { name: "Dra. Teresa López", contact: "9998765435" }
+            ],
+            technicians: [
+                { name: "Ing. Hugo Sánchez", company: "MediTech", contact: "9995559878" },
+                { name: "Tec. Rosa Díaz", company: "Health Services", contact: "9995551237" }
+            ],
+            location: "Ubicación del Hospital Faro del Mayab",
+            equipment: {
+                "Imagenologia": [
+                    { 
+                        name: "Tomografía Computarizada Faro", 
+                        description: "Equipo de TC avanzada GE", 
+                        available: true, 
+                        price: 1700,
+                        image: "TomografoFARO.jpg"
+                    }
+                ],
+                "Radioterapia": [
+                    { 
+                        name: "Acelerador Lineal", 
+                        description: "Acelerador lineal de ultima generacion TrueBeam", 
+                        available: true, 
+                        price: 2200,
+                        image: "AceleradorLinealBeamFARO.jpg"
+                    }
+                ],
+                "Hemodinamia": [
+            { 
+                name: "Angiógrafo Poligrafo", 
+                description: "Sistema de Angiografía de ultima tecnologia", 
+                available: true, 
+                image: "AngiografoFARO.jpg"
+            }, 
+            { 
+                name: "Arco en C", 
+                description: "Sistema de Arco en C con Angiografo Zenition 50 (Intervencion Quirurgica)", 
+                available: true,
+                price: "9500 a 21500", 
+                image: "ArcoCAngiografoFARO.jpg"
+            } 
+        ],
+        "Quirofano": [
+            { 
+                name: "Arco en C", 
+                description: "Sistema de Arco en C Portatil para Quirofano", 
+                available: true, 
+                image: "ArcoCQuirofanoFARO.jpg"
+            } // No se necesita coma aquí porque es el último elemento
+        ],
+                "Medicina Nuclear": [
+                    { 
+                        name: "Gammacámara", 
+                        description: "Cámara gamma para estudios de diagnóstico", 
+                        available: true, 
+                        price: 2400,
+                        image: "url_de_imagen_gammacamara_faro.jpg"
+                    }
+                ],
+                
+        "Radiología": [
+            { 
+                name: "Mastógrafo", 
+                description: "Sistema de Mastografía GE de Ultima generacion", 
+                available : true,
+                price: 1500, 
+                image: "MastografoFARO.jpg"
+            } // No se necesita coma aquí porque es el último elemento
+        ]
+            }
+        },
+        {
+            name: "Hospital Star Médica",
+            lat: 20.9640,
+            lon: -89.6220,
+            doctors: [
+                { name: "Dr. Andrés Martínez", contact: "9998765436" },
+                { name: "Dra. Isabel Torres", contact: "9998765437" }
+            ],
+            technicians: [
+                { name: "Ing. Mario Ramírez", company: "Star Medical", contact: "9995559879" },
+                { name: "Tec. Paula Fernández", company: "MediHealth", contact: "9995551238" }
+            ],
+            location: "Ubicación del Hospital Star Médica",
+            equipment: {
+                "Radiología": [
+                    { 
+                        name: "Ultrasonido Doppler", 
+                        description: "Equipo de ultrasonido Doppler", 
+                        available: true, 
+                        price: 1300,
+                        image: "url_de_imagen_ultrasonido_doppler.jpg"
+                    }
+                ],
+                "Radioterapia": [
+                    { 
+                        name: "Acelerador Lineal", 
+                        description: "Acelerador lineal avanzado", 
+                        available: true, 
+                        price: 2300,
+                        image: "url_de_imagen_acelerador_star.jpg"
+                    }
+                ],
+                "Medicina Nuclear": [
+                    { 
+                        name: "PET-CT", 
+                        description: "Equipo PET-CT de última generación", 
+                        available: true, 
+                        price: 3000,
+                        image: "url_de_imagen_petct_star.jpg"
+                    }
+                ]
+            }
+        }
+    ];
+    
+    let selectedHospital = "";
+    let comments = [];
+    
+    function initializeHospitalList() {
+        const hospitalList = document.getElementById('hospitalList');
+        const dropbtn = document.querySelector('.dropbtn');
+        dropbtn.textContent = "Seleccionar Hospital";
+        hospitals.forEach(hospital => {
+            const a = document.createElement('a');
+            a.href = "#";
+            a.textContent = hospital.name;
+            a.onclick = (e) => {
+                e.preventDefault();
+                selectHospital(hospital);
+            };
+            hospitalList.appendChild(a);
+        });
+    }
+    
+    function selectHospital(hospital) {
+        selectedHospital = hospital;
+        document.querySelector('.dropbtn').textContent = hospital.name;
+        document.getElementById('selectedHospitalName').textContent = hospital.name;
+        document.getElementById('hospitalContent').style.display = 'block';
+        selectTab('Radiología');
+        loadMap(hospital.lat, hospital.lon); // Cargar el mapa usando latitud y longitud
+    }
+    
+    function selectTab(area) {
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.textContent === area) {
+                tab.classList.add('active');
+            }
+        });
+        updateEquipmentList(area);
+        updateDoctorList();
+        updateTechnicianList();
+    }
+    
+    function updateEquipmentList(area) {
+        const tabContent = document.getElementById('tabContent');
+        tabContent.innerHTML = `<h3>${area}</h3><div class="equipment-list">`;
+        selectedHospital.equipment[area].forEach(equipment => {
+            tabContent.innerHTML += `
+                <div class="equipment-item">
+                    <img src="${equipment.image}" alt="${equipment.name}" class="equipment-image">
+                    <h4>${equipment.name}</h4>
+                    <p>${equipment.description}</p>
+                    <div class="availability">
+                        <div class="availability-indicator ${equipment.available ? 'available' : 'not-available'}"></div>
+                        <span>${equipment.available ? 'Disponible' : 'No disponible'}</span>
+                        ${equipment.price ? `<p>Precio aproximado de diagnóstico: $${equipment.price}</p>` : ''}
+                    </div>
+                </div>
+            `;
+        });
+        tabContent.innerHTML += '</div>';
+    }
+    
+    function updateDoctorList() {
+        const doctorLists = document.getElementById('doctorLists');
+        doctorLists.innerHTML = `<h4>Doctores</h4><div class="doctor-list">`;
+        selectedHospital.doctors.forEach(doctor => {
+            doctorLists.innerHTML += `
+                <div class="doctor-item">
+                    <div class="doctor-icon">👤</div>
+                    <div>
+                        <h4>${doctor.name}</h4>
+                        <p>${doctor.contact}</p>
+                    </div>
+                </div>
+            `;
+        });
+        doctorLists.innerHTML += '</div>';
+    }
+    
+    function updateTechnicianList() {
+        const technicianLists = document.getElementById('technicianLists');
+        technicianLists.innerHTML = `<h4>Técnicos</h4><div class="technician-list">`;
+        selectedHospital.technicians.forEach(technician => {
+            technicianLists.innerHTML += `
+                                <div class="technician-item">
+                    <div class="technician-icon">🔧</div>
+                    <div>
+                        <h4>${technician.name}</h4>
+                        <p>${technician.company}</p>
+                        <p>${technician.contact}</p>
+                    </div>
+                </div>
+            `;
+        });
+        technicianLists.innerHTML += '</div>';
+    }
+
+    function loadMap(lat, lon) {
+        const mapContainer = document.getElementById('mapContainer');
+        mapContainer.innerHTML = ''; // Limpiar mapa anterior
+        const map = document.createElement('iframe');
+        map.src = `https://www.google.com/maps/embed/v1/view?key=YOUR_API_KEY&center=${lat},${lon}&zoom=15`;
+        map.width = "100%";
+        map.height = "300";
+        map.style.border = "0";
+        map.allowFullscreen = true;
+        mapContainer.appendChild(map);
+    }
+
+    function handleSearch() {
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+        let results = [];
+
+        hospitals.forEach(hospital => {
+            for (let area in hospital.equipment) {
+                const filteredEquipment = hospital.equipment[area].filter(equipment => 
+                    equipment.name.toLowerCase().includes(searchQuery) ||
+                    equipment.description.toLowerCase().includes(searchQuery)
+                );
+                if (filteredEquipment.length > 0) {
+                    results.push({
+                        hospital: hospital.name,
+                        area: area,
+                        equipment: filteredEquipment
+                    });
+                }
+            }
+        });
+
+        displaySearchResults(results);
+    }
+
+    function displaySearchResults(results) {
+        const content = document.getElementById('hospitalContent');
+        content.style.display = 'block';
+        const tabContent = document.getElementById('tabContent');
+        tabContent.innerHTML = '<h3>Resultados de la búsqueda</h3>';
+
+        if (results.length === 0) {
+            tabContent.innerHTML += '<p>No se encontraron equipos que coincidan con la búsqueda.</p>';
+        } else {
+            results.forEach(result => {
+                tabContent.innerHTML += `
+                    <div class="search-result">
+                        <h4>${result.hospital} - ${result.area}</h4>
+                        <div class="equipment-list">
+                            ${result.equipment.map(equipment => `
+                                <div class="equipment-item">
+                                    <img src="${equipment.image}" alt="${equipment.name}" class="equipment-image">
+                                    <h5>${equipment.name}</h5>
+                                    <p>${equipment.description}</p>
+                                    <div class="availability">
+                                        <div class="availability-indicator ${equipment.available ? 'available' : 'not-available'}"></div>
+                                        <span>${equipment.available ? 'Disponible' : 'No disponible'}</span>
+                                        ${equipment.price ? `<p>Precio aproximado de diagnóstico: $${equipment.price}</p>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+    }
+    function handleCommentSubmit(event) {
+        event.preventDefault();
+        const commentText = document.getElementById('commentInput').value;
+        if (commentText.trim() !== '') {
+            comments.unshift({ text: commentText, timestamp: new Date().toLocaleString() });
+            updateCommentList();
+            document.getElementById('commentInput').value = '';
+        }
+    }
+    
+    function updateCommentList() {
+        const commentList = document.getElementById('commentList');
+        commentList.innerHTML = '';
+        comments.slice(0, 3).forEach(comment => {
+            commentList.innerHTML += `
+                <div class="comment-item">
+                    <p>${comment.text}</p>
+                    <small>${comment.timestamp}</small>
+                </div>
+            `;
+        });
+    }
+
+    // Inicializar la lista de hospitales al cargar la página
+    window.onload = initializeHospitalList;
+    function loadMap(lat, lon) {
+            const mapContainer = document.getElementById('mapContainer');
+            mapContainer.innerHTML = ''; // Clear previous map
+            const map = document.createElement('iframe');
+            map.src = `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&center=${lat},${lon}&zoom=15`;
+            map.width = "100%";
+            map.height = "300";
+            map.style.border = "0";
+            map.allowFullscreen = true;
+            mapContainer.appendChild(map);
+        }
+
+</script>
+    
+    </body>
+</html>
