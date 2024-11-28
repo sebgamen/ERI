@@ -223,6 +223,38 @@
             height: auto;
             margin-bottom: 0.5rem;
         }
+        .area-dropdown {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        .area-dropbtn {
+            background-color: #f97316;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        .area-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .area-dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .area-dropdown-content a:hover {background-color: #f1f1f1}
+        .area-dropdown:hover .area-dropdown-content {
+            display: block;
+        }
+        
     </style>
 </head>
 <body>
@@ -249,13 +281,16 @@
         <div id="hospitalContent" style="display: none;">
             <div class="card">
                 <h2 id="selectedHospitalName"></h2>
-                <div class="tabs">
-                    <div class="tab active" onclick="selectTab('Imagenologia')">Imagenología</div>
-                    <div class="tab" onclick="selectTab('Radiología')">Radiología</div>
-                    <div class="tab" onclick="selectTab('Radioterapia')">Radioterapia</div>
-                    <div class="tab" onclick="selectTab('Medicina Nuclear')">Medicina Nuclear</div>
-                    <div class="tab" onclick="selectTab('Hemodinamia')">Hemodinamia</div>
-                    <div class="tab" onclick="selectTab('Quirofano')">Quirofano</div>
+                <div class="area-dropdown">
+                    <button class="area-dropbtn">Seleccionar Área</button>
+                    <div class="area-dropdown-content">
+                        <a href="#" onclick="selectTab('Imagenologia')">Imagenología</a>
+                        <a href="#" onclick="selectTab('Radiología')">Radiología</a>
+                        <a href="#" onclick="selectTab('Radioterapia')">Radioterapia</a>
+                        <a href="#" onclick="selectTab('Medicina Nuclear')">Medicina Nuclear</a>
+                        <a href="#" onclick="selectTab('Hemodinamia')">Hemodinamia</a>
+                        <a href="#" onclick="selectTab('Quirofano')">Quirofano</a>
+                    </div>
                 </div>
                 <div id="tabContent"></div>
             </div>
@@ -363,13 +398,13 @@
                 description: "Sistema de Angiografía", 
                 available: true, 
                 image: "url_de_imagen_petct.jpg"
-            }, // Coma añadida aquí
+            }, 
             { 
                 name: "Arco en C", 
                 description: "Sistema de Arco en C", 
                 available: true, 
                 image: "url_de_imagen_rayox.jpg"
-            } // No se necesita coma aquí porque es el último elemento
+            }
         ],
         "Quirofano": [
             { 
@@ -377,7 +412,7 @@
                 description: "Sistema de Arco en C", 
                 available: true, 
                 image: "ArcoCQuirofano.jpg"
-            } // No se necesita coma aquí porque es el último elemento
+            } 
         ]
                 }
             },
@@ -528,25 +563,25 @@
                 description: "Sistema de rayos X Portátil Shimatzu", 
                 available: true, 
                 image: "ShimadzuUMAE.jpg"
-            }, // Coma añadida aquí
+            }, 
             { 
                 name: "Rayos X", 
                 description: "Sistema de rayos X", 
                 available: true, 
                 image: "RayosXMesaUMAE".jpg
-            }, // Coma añadida aquí
+            }, 
             { 
                 name: "Tomógrafo 64 Cortes", 
                 description: "Sistema de Tomografía computarizada de 64 Cortes Toshiba", 
                 available: true, 
                 image: "Tomografo64CortesUMAE.jpg"
-            }, // Coma añadida aquí
+            }, 
             { 
                 name: "Angiógrafo de Biplanar", 
                 description: "Sistema de Angiografía computarizada Biplanar", 
                 available: true, 
                 image: "AngiografoBiplanarUMAE.jpg"
-            } // No se necesita coma aquí porque es el último elemento
+            } 
         ],
         "Radioterapia": [
             { 
@@ -554,13 +589,13 @@
                 description: "Sistema de Braquiterapia de alta tasa", 
                 available: true, 
                 image: "url_de_imagen_braquiterapia.jpg"
-            }, // Coma añadida aquí
+            },
             { 
                 name: "Arco en C", 
                 description: "Sistema de Arco en C", 
                 available: true, 
                 image: "url_de_imagen_braquiterapia.jpg"
-            }, // No se necesita coma aquí porque es el último elemento
+            }, 
             { 
                 name: "Acelerador Lineal", 
                 description: "Acelerador Lineal de Ultima Generacion", 
@@ -574,7 +609,7 @@
                 description: "Sistema de Gamma Cámara", 
                 available: true, 
                 image: "url_de_imagen_petct.jpg"
-            } // No se necesita coma aquí porque es el último elemento
+            }
         ],
         "Hemodinamia": [
             { 
@@ -582,13 +617,13 @@
                 description: "Sistema de Angiografía", 
                 available: true, 
                 image: "url_de_imagen_petct.jpg"
-            }, // Coma añadida aquí
+            },
             { 
                 name: "Arco en C", 
                 description: "Sistema de Arco en C", 
                 available: true, 
                 image: "url_de_imagen_rayox.jpg"
-            } // No se necesita coma aquí porque es el último elemento
+            }
         ],
         "Quirofano": [
             { 
@@ -596,7 +631,7 @@
                 description: "Sistema de Arco en C", 
                 available: true, 
                 image: "ArcoCQuirofanoUMAE.jpeg"
-            } // No se necesita coma aquí porque es el último elemento
+            } 
         ],
         "Mastografia": [
             { 
@@ -604,7 +639,7 @@
                 description: "Sistema de Mastografía", 
                 available : true, 
                 image: "url_de_imagen_petct.jpg"
-            } // No se necesita coma aquí porque es el último elemento
+            }
         ]
     }
 },
@@ -661,7 +696,7 @@
                 description: "Sistema de Arco en C Portatil para Quirofano", 
                 available: true, 
                 image: "ArcoCQuirofanoFARO.jpg"
-            } // No se necesita coma aquí porque es el último elemento
+            } 
         ],
                 "Medicina Nuclear": [
                     { 
@@ -680,7 +715,7 @@
                 available : true,
                 price: 1500, 
                 image: "MastografoFARO.jpg"
-            } // No se necesita coma aquí porque es el último elemento
+            } 
         ]
             }
         },
@@ -754,7 +789,7 @@
         document.getElementById('selectedHospitalName').textContent = hospital.name;
         document.getElementById('hospitalContent').style.display = 'block';
         selectTab('Radiología');
-        loadMap(hospital.lat, hospital.lon); // Cargar el mapa usando latitud y longitud
+        loadMap(hospital.lat, hospital.lon); 
     }
     
     function selectTab(area) {
@@ -826,7 +861,7 @@
 
     function loadMap(lat, lon) {
         const mapContainer = document.getElementById('mapContainer');
-        mapContainer.innerHTML = ''; // Limpiar mapa anterior
+        mapContainer.innerHTML = ''; 
         const map = document.createElement('iframe');
         map.src = `https://www.google.com/maps/embed/v1/view?key=YOUR_API_KEY&center=${lat},${lon}&zoom=15`;
         map.width = "100%";
@@ -891,6 +926,7 @@
             });
         }
     }
+    
     function handleCommentSubmit(event) {
         event.preventDefault();
         const commentText = document.getElementById('commentInput').value;
@@ -900,7 +936,14 @@
             document.getElementById('commentInput').value = '';
         }
     }
-    
+
+    function selectTab(area) {
+            document.querySelector('.area-dropbtn').textContent = area;
+            updateEquipmentList(area);
+            updateDoctorList();
+            updateTechnicianList();
+        }
+
     function updateCommentList() {
         const commentList = document.getElementById('commentList');
         commentList.innerHTML = '';
@@ -914,11 +957,11 @@
         });
     }
 
-    // Inicializar la lista de hospitales al cargar la página
+    
     window.onload = initializeHospitalList;
     function loadMap(lat, lon) {
             const mapContainer = document.getElementById('mapContainer');
-            mapContainer.innerHTML = ''; // Clear previous map
+            mapContainer.innerHTML = ''; 
             const map = document.createElement('iframe');
             map.src = `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&center=${lat},${lon}&zoom=15`;
             map.width = "100%";
