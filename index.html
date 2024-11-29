@@ -380,38 +380,26 @@
                     ],
                     "Medicina Nuclear": [
                         { 
-                            name: "PET-CT", 
-                            description: "Tomógrafo por emisión de positrones combinado con TC", 
-                            available: true, 
-                            image: "Tomografo_pot_positrones.jpg"
-                        },
-                        { 
-                            name: "Gammacámara SPECT", 
-                            description: "Cámara gamma para estudios de SPECT", 
+                            name: "Gammacámara PET-CT ", 
+                            description: "Cámara gamma para estudios de PET/CT SIEMENS", 
                             available: false, 
-                            image: "url_de_imagen_gammacamara.jpg"
+                            image: "PetCTSiemensHRAE.jpg"
                         }
                     ],
                     "Hemodinamia": [
             { 
                 name: "Angiógrafo Poligrafo", 
-                description: "Sistema de Angiografía", 
+                description: "Sistema de Angiografía Biplanar", 
                 available: true, 
-                image: "url_de_imagen_petct.jpg"
-            }, 
-            { 
-                name: "Arco en C", 
-                description: "Sistema de Arco en C", 
-                available: true, 
-                image: "url_de_imagen_rayox.jpg"
+                image: "AngiografoBiplanarHRAE.jpg"
             }
         ],
         "Quirofano": [
             { 
                 name: "Arco en C", 
-                description: "Sistema de Arco en C", 
+                description: "Sistema de Arco en C para Quirofano", 
                 available: true, 
-                image: "ArcoCQuirofano.jpg"
+                image: "ArcoCQuirofanoHRAE.jpg"
             } 
         ]
                 }
@@ -430,38 +418,54 @@
                 ],
                 location: "Ubicación del Hospital General Dr. Agustín O'Horán",
                 equipment: {
+                    "Imagenologia": [
+                        { 
+                            name: "", 
+                            description: "Equipo de TC de 16 cortes SIEMENS", 
+                            available: true, 
+                            image: "Tomografo16CortesOran.jpg"
+                        }
+                    ],
+                    
                     "Radiología": [
                         { 
                             name: "Tomografía Computarizada", 
-                            description: "Equipo de TC de 64 cortes", 
+                            description: "Equipo de TC de 64 cortes GE", 
                             available: true, 
-                            image: "url_de_imagen_tomografia.jpg"
+                            image: "TomografoORAN.jpg"
                         }
                     ],
                     "Radioterapia": [
                         { 
-                            name: "Acelerador Lineal", 
-                            description: "Acelerador lineal de última generación", 
+                            name: "Mastografo", 
+                            description: "Diagnostico de Mastografia de alta resolucion", 
                             available: true, 
-                            image: "url_de_imagen_acelerador.jpg"
+                            image: "MastografoORAN.jpg"
                         }
                     ],
                     "Medicina Nuclear": [
                         { 
-                            name: "PET-CT", 
-                            description: "Tomógrafo por emisión de positrones combinado con TC", 
+                            name: "SPECT-CT", 
+                            description: "Diagnostico de espectro con SPECT", 
                             available: true, 
-                            image: "url_de_imagen_petct.jpg"
+                            image: "SPECTORAN.jpg"
                         }
                     ],
                     "Hemodinamia": [
             { 
-                name: "Angiógrafo Poligrafo", 
+                name: "Angiógrafo Poligrafo / Arco en C", 
                 description: "Sistema de Angiografía con Arco C", 
-                available: true,
-                price: 1500, 
-                image: "Angiografoorhan.jpg"
+                available: true, 
+                image: "AngiografoOran.jpg"
             }
+        ],
+               "Quirofano": [
+            { 
+                name: "Rayos X", 
+                description: "Sistema de Rayos X portatil para Quirofano", 
+                available: true, 
+                image: "RayosXQuirofanoORAN.jpg"
+            } 
         ]
                 }
             },
@@ -481,11 +485,11 @@
             equipment: {
                 "Radiología": [
                     { 
-                        name: "Ultrasonido", 
-                        description: "Equipo de ultrasonido de alta definición", 
+                        name: "Mesa de Rayos X", 
+                        description: "Equipo de Rayos X de definición", 
                         available: true, 
                         price: 1200,
-                        image: "url_de_imagen_ultrasonido.jpg"
+                        image: "RayosXCEMA.jpg"
                     }
                 ],
                 "Imagenologia": [
@@ -499,20 +503,20 @@
                 ],
                 "Radioterapia": [
                     { 
-                        name: "Acelerador Lineal", 
-                        description: "Acelerador lineal de última generación", 
+                        name: "Mastografo", 
+                        description: "Mastografo de alta tasa con alta resolucion de imagen", 
                         available: true, 
                         price: 2100,
-                        image: "url_de_imagen_acelerador.jpg"
+                        image: "MastografoCEMA.jpeg"
                     }
                 ],
                 "Medicina Nuclear": [
                     { 
-                        name: "SPECT", 
-                        description: "Escáner SPECT para estudios de diagnóstico", 
+                        name: "PET/CT", 
+                        description: "Escáner PET/CT para estudios de diagnóstico", 
                         available: true, 
                         price: 2500,
-                        image: "url_de_imagen_spect.jpg"
+                        image: "PetCTCEMA.jpg"
                     }
                 ],
                 "Hemodinamia": [
@@ -523,6 +527,14 @@
                 price: 1500, 
                 image: "AngiografoCEMA.jpg"
             }
+,        ],
+               "Quirofano": [
+            { 
+                name: "Arco en C", 
+                description: "Sistema de Arco en C", 
+                available: true, 
+                image: "ArcoCQuirofanoCEMA.jpg"
+            } 
         ]
             }
             
@@ -568,7 +580,7 @@
                 name: "Rayos X", 
                 description: "Sistema de rayos X", 
                 available: true, 
-                image: "RayosXMesaUMAE".jpg
+                image: "MesaRayosXUMAE.jpg"
             }, 
             { 
                 name: "Tomógrafo 64 Cortes", 
@@ -585,44 +597,26 @@
         ],
         "Radioterapia": [
             { 
-                name: "Braquiterapia", 
-                description: "Sistema de Braquiterapia de alta tasa", 
-                available: true, 
-                image: "url_de_imagen_braquiterapia.jpg"
-            },
-            { 
-                name: "Arco en C", 
-                description: "Sistema de Arco en C", 
-                available: true, 
-                image: "url_de_imagen_braquiterapia.jpg"
-            }, 
-            { 
                 name: "Acelerador Lineal", 
-                description: "Acelerador Lineal de Ultima Generacion", 
+                description: "Acelerador Lineal True Beam de ultima generacion", 
                 available: true, 
-                image: "url_de_imagen_aceleradorlineal.jpg"
+                image: "AceleradorLinealUMAE.jpg"
             }
         ],
         "Medicina Nuclear": [
             { 
-                name: "Gamma Cámara NM", 
-                description: "Sistema de Gamma Cámara", 
+                name: "PET-CT NM", 
+                description: "PET-CT NM/HC de ultima generacion GE", 
                 available: true, 
-                image: "url_de_imagen_petct.jpg"
+                image: "GammaCamaraUMAE.jpg"
             }
         ],
         "Hemodinamia": [
             { 
-                name: "Angiógrafo Poligrafo", 
-                description: "Sistema de Angiografía", 
+                name: "Angiógrafo Poligrafo y Aco C", 
+                description: "Sistema de Angiografía y arco en C", 
                 available: true, 
-                image: "url_de_imagen_petct.jpg"
-            },
-            { 
-                name: "Arco en C", 
-                description: "Sistema de Arco en C", 
-                available: true, 
-                image: "url_de_imagen_rayox.jpg"
+                image: "HemodinamiaUMAE.jpg"
             }
         ],
         "Quirofano": [
@@ -632,14 +626,6 @@
                 available: true, 
                 image: "ArcoCQuirofanoUMAE.jpeg"
             } 
-        ],
-        "Mastografia": [
-            { 
-                name: "Mastógrafo", 
-                description: "Sistema de Mastografía", 
-                available : true, 
-                image: "url_de_imagen_petct.jpg"
-            }
         ]
     }
 },
@@ -698,17 +684,7 @@
                 image: "ArcoCQuirofanoFARO.jpg"
             } 
         ],
-                "Medicina Nuclear": [
-                    { 
-                        name: "Gammacámara", 
-                        description: "Cámara gamma para estudios de diagnóstico", 
-                        available: true, 
-                        price: 2400,
-                        image: "url_de_imagen_gammacamara_faro.jpg"
-                    }
-                ],
-                
-        "Radiología": [
+                "Radiología": [
             { 
                 name: "Mastógrafo", 
                 description: "Sistema de Mastografía GE de Ultima generacion", 
@@ -926,7 +902,7 @@
             });
         }
     }
-    
+
     function handleCommentSubmit(event) {
         event.preventDefault();
         const commentText = document.getElementById('commentInput').value;
